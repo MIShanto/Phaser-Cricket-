@@ -110,9 +110,6 @@ class mainScene extends Phaser.Scene {
         this.scoreText.setText('Score: ' + this.score);
     }
 
-    doBatting(){
-
-    }
     throwBall(ball)
     {
         // Calculate the new velocity based on three given directions (example directions)
