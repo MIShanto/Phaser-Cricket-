@@ -72,6 +72,9 @@ class mainScene extends Phaser.Scene {
         // Set up collisions
         this.physics.add.overlap(this.ball, this.batsman, this.ballHitBatsman, null, this, true);
         this.physics.add.collider(this.ball, this.fielders, this.ballHitFielder, null, this);
+
+        this.physics.world.setBounds(0, 0, 785, 359);
+        this.timerEvent = this.time.addEvent({ delay: 3000, loop: true, callback: this.throwBall, callbackScope: this });
     }
     
     update() {
@@ -129,7 +132,13 @@ class mainScene extends Phaser.Scene {
         } 
     // Apply the velocity to the ball.
     this.ball.setVelocity(ballVelocityX, ballVelocityY);
-
+    
+    this.ball.setBounce(0.05);
+    this.physics.world.on('worldbounds', (body) => {
+        if (body.gameObject === ball) {
+          ball.setActive(false).setVisible(false); // Hide and deactivate the ball when it goes out of bounds
+        }
+      });
     }
 
     ballHitBatsman(ball, batsman) {
